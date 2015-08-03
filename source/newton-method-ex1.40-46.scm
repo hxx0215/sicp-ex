@@ -1,0 +1,106 @@
+(define tolerance 0.00001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance)
+    )
+  (define (try guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+        (try next)
+        )
+      )
+    )
+  (try first-guess)
+  )
+(define (deriv g)
+  (lambda (x)
+    (/ (- (g (+ x dx)) (g x)) dx)
+    )
+  )
+(define dx 0.00001)
+(define (newton-transform g)
+  (lambda (x)
+    (- x (/ (g x) ((deriv g) x)))
+    )
+  )
+(define (newton-method g guess)
+  (fixed-point (newton-transform g) guess)
+  )
+
+(define (cubic a b c)
+  (lambda (x) (+ (* x x x) (* a x x) (* b x) c))
+  )
+(newton-method (cubic 2 1 0) 1)
+
+(define (double f)
+  (lambda (x) (f (f x)))
+  )
+
+(((double (double double)) inc) 5)
+
+(define (compose f g)
+  (lambda (x) (f (g x)))
+  )
+
+(define (square a)
+  (* a a)
+  )
+((compose square inc) 6)
+
+(define (repeated f n)
+  (if (= 1 n)
+    f
+    (compose f (repeated f (- n 1)))
+    )
+  )
+
+((repeated inc 9) 5)
+
+(define (smooth f)
+  (lambda (x) (/ (+ (f (- x dx)) (f x) (f (+ x dx))) 3))
+  )
+(define (n-smooth f n)
+  (repeated (smooth f) n)
+  )
+
+(define (average-damp f)
+  (lambda (x) (average x (f x)))
+  )
+(define (average a b)
+  (/ (+ a b) 2)
+  )
+
+(define (iterative-improve good-enough? improve)
+  (define (guess i)
+    (if (good-enough? i)
+      i
+      (guess (improve i))
+      )
+    )
+  guess
+  )
+(define (sqrt-146 x)
+  ((iterative-improve 
+    (lambda (a) (< (abs (- x (* a a))) 0.001))
+    (average-damp (lambda (a) (/ x a)))
+    )
+  1.0) 
+)
+(sqrt-146 9.0)
+
+(define (fix-point f first-guess)
+  ((iterative-improve
+     (lambda (a) (< (abs (- a (f a))) 0.001))
+     f
+     )
+   first-guess
+   )
+  )
+(fix-point cos 0)
+(define (sqrt-147 x)
+  (fix-point (average-damp (lambda (y) (/ x y)))
+             1.0
+             )
+  )
+(sqrt-147 2.0)
