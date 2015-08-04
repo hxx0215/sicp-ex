@@ -1,0 +1,13 @@
+(define (cc amount coin-values)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (no-more? coin-values)) 0)
+        (else (+ (cc amount (except-first-denomiation coin-values))
+                 (cc (- amount (first-denomination coin-values)) coin-values)
+                 ))
+        )
+  )
+(define (no-more? l) (null? l))
+(define (except-first-denomiation l) (cdr l))
+(define (first-denomination l) (car l))
+
+(cc 100 (list 50 25 10 5 1))
