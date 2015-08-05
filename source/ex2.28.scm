@@ -1,0 +1,13 @@
+(define (fringe tree)
+  (if (null? tree)
+    '()
+    (if (not (pair? tree))
+      (list tree)
+      (append (fringe (car tree))
+              (fringe (cdr tree))
+              )
+      )
+    )
+  )
+
+(fringe (list (list 1 2) (list 3 4)))

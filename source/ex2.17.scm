@@ -19,4 +19,4 @@
   (iter l '())
   )
 
-(reverse-list )
+(reverse-list (list 1 2 3))
