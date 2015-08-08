@@ -30,15 +30,12 @@
            (enumerate-interval 1 n)
            )
   )
-
 (define (sum pair)
   (fold-right + 0 pair)
   )
-
 (define (sumequal s pair)
   (= s (sum pair))
   )
-
 (define (triple n s)
   (filter (lambda (pair)
             (sumequal s pair)
@@ -46,6 +43,7 @@
   )
 
 (triple 13 10)
+
 ;unique-triple answer 
 (define (unique-pairs n)
   (flatmap (lambda (i)
