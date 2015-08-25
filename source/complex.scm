@@ -66,7 +66,8 @@
     )
   ;;interface to the rest of the system
   (define (tag x) (attach-tag 'rectangular x))
-  (put 'real-part '(rectangular) real-part)
+  (put 'real-partb '(rectangular) real-partb)
+  (put 'imag-partb '(rectangular) imag-partb)
   )
 
-
+(define (make-from-mag-ang x y))
