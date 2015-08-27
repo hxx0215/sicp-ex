@@ -38,11 +38,15 @@
       'ok
       )
     (define (dispatch m)
-      (cond ((eq? m 'loockup-proc) lookup)
-            ((eq? m 'insert-proc) insert!)
+      (cond ((eq? m 'lookup-proc) lookup)
+            ((eq? m 'insert-proc!) insert!)
             (else (error "Unknow opertation -- Table" m))
             )
       )
     dispatch
     )
   )
+(define operation-table (make-table))
+(define put (operation-table 'insert-proc!))
+(define get (operation-table 'lookup-proc))
+

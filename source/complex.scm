@@ -68,6 +68,13 @@
   (define (tag x) (attach-tag 'rectangular x))
   (put 'real-partb '(rectangular) real-partb)
   (put 'imag-partb '(rectangular) imag-partb)
+  (put 'magitudeb '(rectangular) magnitudeb)
+  (put 'angleb '(rectangular) angleb)
+  (put 'make-from-real-imag 'rectangular 
+       (lambda (x y) (tag (make-from-real-imag x y)))
+       )
+  (put 'make-from-mag-ang 'rectangular 
+       (lambda (r a) (tag (make-from-mag-ang r a)))
+       )
   )
 
-(define (make-from-mag-ang x y))
