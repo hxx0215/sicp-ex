@@ -16,7 +16,7 @@
     (define (insert! key-1 key-2 value)
       (let ((subtable (assoc key-1 (cdr local-table))))
         (if subtable
-          (let ((record (assoc ke-2 (cdr subtable))))
+          (let ((record (assoc key-2 (cdr subtable))))
             (if record
               (set-cdr! record value)
               (set-cdr! subtable
