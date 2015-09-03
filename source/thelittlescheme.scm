@@ -95,3 +95,108 @@
 (insertR 'jalapeno 'and '(tacos tamales and salsa))
 
 (insertR 'e 'd '(a b c d f g d h))
+
+(define multirember
+  (lambda (a lat)
+    (if (null? lat)
+      '()
+      (if (eq? a (car lat))
+        (multirember a (cdr lat))
+        (cons (car lat) (multirember a (cdr lat)))
+        )
+      )
+    )
+  )
+
+(multirember 'cup '(coffee cup tea cup and hick cup))
+
+(define multiinsertR
+  (lambda (new old lat)
+    (if (null? lat)
+      '()
+      (if (eq? old (car lat))
+        (cons (car lat) (cons new (multiinsertR old new (cdr lat))))
+        (cons (car lat) (multiinsertR new old (cdr lat)))
+        )
+      )
+    )
+  )
+
+(define multiinsertL
+  (lambda (new old lat)
+    (if (null? lat)
+      '()
+      (if (eq? old (car lat))
+        (cons new (cons old (multiinsertL new old (cdr lat))))
+        (cons (car lat) (multiinsertL new old (cdr lat)))
+        )
+      )
+    )
+  )
+
+(define multisubst
+  (lambda (new old lat)
+    (if (null? lat)
+      '()
+      (if (eq? old (car lat))
+        (cons new (multisubst new old (cdr lat)))
+        (cons (car lat) (multisubst new old (cdr lat)))
+        )
+      )
+    )
+  )
+
+(define add1
+  (lambda (n)
+    (+ n 1)
+    )
+  )
+
+(define sub1
+  (lambda (n)
+    (- n 1)
+    )
+  )
+
+(define plus
+  (lambda (a b)
+    (if (zero? b)
+      a
+      (add1 (plus a (sub1 b)))
+      )
+    )
+  )
+
+(plus 9 4)
+
+(define minus
+  (lambda (m n)
+    (if (zero? n)
+      m
+      (sub1 (minus m (sub1 n)))
+      )
+    )
+  )
+
+(minus 1000 9)
+
+(define addtup
+  (lambda (l)
+    (if (null? l)
+      0
+      (+ (car l) (addtup (cdr l)))
+      )
+    )
+  )
+
+(addtup (list 10 2 3 4 6))
+
+(define multi
+  (lambda (a b)
+    (if (zero? b)
+      0
+      (+ a (multi a (sub1 b)))
+      )
+    )
+  )
+
