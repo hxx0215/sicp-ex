@@ -385,3 +385,96 @@
                         (if (a) ((wood chuck)))
                         could chuck wood
                         ))
+
+(define occur*
+  (lambda (a l)
+    (if (null? l)
+      0
+      (if (atom? (car l))
+        (if (eq? a (car l))
+          (add1 (occur* a (cdr l)))
+          (occur* a (cdr l))
+          )
+        (+ (occur* a (car l)) (occur* a (cdr l)))
+        )
+      )
+    )
+  )
+
+(occur* 'banana '((banana)
+                  (split ((((banana ice)))
+                          (cream (banana))
+                          sherbet
+                          ))
+                  (banana)
+                  (bread)
+                  (banana brandy)
+                  ))
+
+(define subst*
+  (lambda (new old l)
+    (if (null? l)
+      '()
+      (if (atom? (car l))
+        (if (eq? old (car l))
+          (cons new (subst* new old (cdr l)))
+          (cons (car l) (subst* new old (cdr l)))
+          )
+        (cons (subst* new old (car l))
+              (subst* new old (cdr l))
+              )
+        )
+      )
+    )
+  )
+
+(subst* 'orange 'banana '((banana)
+                          (split ((((banana ice)))
+                                  (cream (banana))
+                                  sherbet
+                                  ))
+                          (banana)
+                          (bread)
+                          (banana brandy)
+                          ))
+
+(define insertL*
+  (lambda (new old l)
+    (if (null? l)
+      '()
+      (if (atom? (car l))
+        (if (eq? old (car l))
+          (cons new (cons old (insertL* new old (cdr l))))
+          (cons (car l) (insertL* new old (cdr l)))
+          )
+        (cons (insertL* new old (car l))
+              (insertL* new old (cdr l))
+              )
+        )
+      )
+    )
+  )
+
+(insertL* 'pecker 'chuck '((how much (wood))
+                         could
+                         ((a (wood) chuck))
+                         (if (a) ((wood chuck)))
+                         could chuck wood
+                         ))
+
+(define member* 
+  (lambda (a l)
+    (if (null? l)
+      false
+      (if (atom? (car l))
+        (if (eq? a (car l))
+          true
+          (member* a (cdr l))
+          )
+        (or (member* a (car l)) (member* a (cdr l)))
+        )
+      )
+    )
+  )
+
+(member* 'chips '((potato) (chips ((with) fish) (chips))))
