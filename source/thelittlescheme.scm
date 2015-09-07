@@ -969,16 +969,72 @@
     (eternity x)
     )
   )
-(((lambda (mk-length)
-  (mk-length mk-length)
+(lambda (l)
+  (cond 
+    ((null? l) 0)
+    (else (add1 (eternity (cdr l))))
+    )
+  )
+(
+ (lambda (length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 (length (cdr l))))
+      )
+     )
+   )
+ eternity
+ )
+(
+ (lambda (mk-length)
+   (mk-length mk-length)
    )
  (lambda (mk-length)
    (lambda (l)
-     (cond 
+     (cond
        ((null? l) 0)
-       (else (add1 ((mk-length eternity) (cdr l))))
+       (else (add1 (mk-length (cdr l))))
        )
      )
    )
  )
- '())
+
+
+(((lambda (mk-length)
+    (mk-length mk-length)
+    )
+  (lambda (mk-length)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (add1
+                (;;(mk-length mk-length)
+                 ;;(mk-length mk-length)
+                 (lambda (x)
+                   ((mk-length mk-length) x)
+                   )
+                 (cdr l)
+                 )
+                ))
+        )
+      )
+    )
+  )
+ '(apple orange)
+ )
+
+
+(define flambda
+  (lambda (x)
+    (+ x 1)
+    )
+  )
+
+(define y 1)
+
+(flambda y)
+
+((lambda (x)
+  (flambda x)
+  ) y)
