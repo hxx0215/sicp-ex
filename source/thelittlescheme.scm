@@ -1024,17 +1024,69 @@
  '(apple orange)
  )
 
+(
+ (
+  (lambda (mk-length)
+    (mk-length mk-length)
+    )
+  (lambda (mk-length)
+    (
+     (lambda (length)
+       (lambda (l)
+         (cond
+          ((null? l) 0)
+          (else
+           (add1 (length (cdr l)))
+           )
+          )
+         )
+       )
+     (lambda (x)
+       ((mk-length mk-length) x)
+       )
+     )
+    )
+  ) '(apple pear))
 
-(define flambda
-  (lambda (x)
-    (+ x 1)
+((lambda (le)
+   ((lambda (mk-length)
+      (mk-length mk-length)
+      )
+    (lambda (mk-length)
+      (le (lambda (x)
+            ((mk-length mk-length) x)
+            ))
+      )
+    )
+   )
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))
+       )
+     )
+   )
+ )
+
+(define Y
+  (lambda (le)
+    ((lambda (f) (f f))
+     (lambda (f)
+       (le (lambda (x) ((f f) x)))
+       )
+     )
     )
   )
 
-(define y 1)
+((y (lambda (len)
+     (lambda (l)
+       (if (null? l)
+         0
+         (add1 (len (cdr l)))
+         )
+       )
+     ))
+ '(a b c))
 
-(flambda y)
-
-((lambda (x)
-  (flambda x)
-  ) y)
+(Y (Y Y))
