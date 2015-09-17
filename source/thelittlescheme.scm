@@ -1184,3 +1184,50 @@
       )
     )
   )
+(define value
+  (lambda (e)
+    (meaning e (quote ()))
+    )
+  )
+(define meaning
+  (lambda (e table)
+    ((expression-to-action e) e table)
+    )
+  )
+(define *const
+  (lambda (e table)
+    (cond
+      ((number? e) e)
+      ((eq? e #t) #t)
+      ((eq? e #f) #f)
+      (else (build (quote primitive) e))
+      )
+    )
+  )
+(define *quote
+  (lambda (e table)
+    (text-of e)
+    )
+  )
+(define text-of second)
+(define *identifier 
+  (lambda (e table)
+    (lookup-in-table e table initial-table)
+    )
+  )
+(define initial-table
+  (lambda (name)
+    (car (quote ()))
+    )
+  )
+(define *lambda
+  (lambda (e table)
+    (build (quote non-primitive)
+           (cons table (cdr e))
+           )
+    )
+  )
+(define table-of first)
+(define formals-of second)
+(define body-of third)
+
