@@ -1230,4 +1230,22 @@
 (define table-of first)
 (define formals-of second)
 (define body-of third)
-
+(define evcon
+  (lambda (lines table)
+    (cond 
+      ((else? (question-of (car lines)))
+       (meaning (answer-of (car lines))
+                table
+                )
+       )
+      ((meaning (question-of (car lines))
+                table
+                )
+       (meaning (answer-of (car lines))
+                table
+                )
+       )
+      (else (evcon (cdr lines) table) )
+      )
+    )
+  )
