@@ -1249,3 +1249,11 @@
       )
     )
   )
+
+(define *cond
+  (lambda (e table)
+    (evcon (cond-lines-of e) table)
+    )
+  )
+
+(define cond-lines-of cdr)
