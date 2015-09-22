@@ -1257,3 +1257,31 @@
   )
 
 (define cond-lines-of cdr)
+(define evlis
+  (lambda (args table)
+    (cond 
+      ((null? args) (quote()))
+      (else
+        (cons (meaning (car args) table)
+              (evlis (cdr args) table)
+              )
+        )
+      )
+    )
+  )
+(define *application
+  (lambda (e table)
+    (apply
+      (meaning (function-of e) table)
+      (evlis (arguments-of e) table)
+      )
+    )
+  )
+(define function-of car)
+(define arguments-of cdr)
+(define primitive?
+  (lambda (l)
+    (eq? (first l) (quote primitive))
+    )
+  )
+
