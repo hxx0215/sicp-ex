@@ -1089,6 +1089,16 @@
      ))
  '(a b c))
 
+((Y (lambda (fact)
+      (lambda (n)
+        (if (= n 0)
+          1
+          (* n (fact (- n 1))
+          )
+        )
+      )))
+ 10)
+
 (Y (Y Y))
 
 (define new-entry build)
