@@ -1099,7 +1099,6 @@
       )))
  10)
 
-(Y (Y Y))
 
 (define new-entry build)
 
